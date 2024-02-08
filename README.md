@@ -1,2 +1,2 @@
-# python
-personal python projects
+# Python Coding
+Learning to code with Python
