@@ -36,7 +36,9 @@ Paint circles at the current mouse position and then remove each one once it has
 
 # Starbust / Flower
 
-![Fan Image](images/fan1.png)
+Simple 2D graphics using straight lines and recursion.
+
+![Fan Image](images/fan2.png)
 
 Keywords: `line` `sin` `cos` `radians`
 
@@ -48,7 +50,7 @@ Wait for keypress, then draw a slighly different image in which the radius of th
 
 Demonstrates the use of simple recursion to acheive a complex result.
 
-Keywords: `recursion` `call depth`
+Keywords: `recursion` `call-depth`
 
 - call the function recursive_starburst() to draw a fan centre `(x,y)`, radius `r`
 - at the end of each line drawn, the function calls itself using the end-point as the centre of a new, smaller starburst
