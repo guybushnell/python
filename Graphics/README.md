@@ -7,6 +7,9 @@ Keywords: `pygame` `2d graphics`
 Shows a ball appearing to bounce under some kind of gravity. Also make a noise on each bounce.
 
 # Circles
+
+![Fan Image](images/circles1.png)
+
 Three examples based around painting circles. Each example includes functions defined in the previous one via Python's import mechanism. That way, we don't need to keep copy/pasting code into each.
 
 Keywords: `circle` `lists` `tuple` `mouse` `time` `random`
@@ -32,6 +35,9 @@ Paint circles at the current mouse position and then remove each one once it has
 - Repeat...
 
 # Starbust / Flower
+
+![Fan Image](images/fan1.png)
+
 Keywords: `line` `sin` `cos` `radians`
 
 ## starburst1.py
