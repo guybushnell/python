@@ -44,7 +44,7 @@ black = (0, 0, 0)
 
 # Initialise the sound mixing module so we can play sounds
 pygame.mixer.init()
-boing_sound = pygame.mixer.Sound("boing.wav")
+boing_sound = pygame.mixer.Sound("audio/boing.wav")
 
 screen = pygame.display.set_mode((scr_width, scr_height))
 pygame.display.set_caption("Bouncing Ball Test")

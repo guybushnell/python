@@ -66,8 +66,8 @@ pygame.init()
 
 # Initialise the sound mixing module so we can play sounds
 pygame.mixer.init()
-good_sound = pygame.mixer.Sound("correct.mp3")
-bad_sound = pygame.mixer.Sound("wrong-answer-buzzer.wav")
+good_sound = pygame.mixer.Sound("audio/correct.mp3")
+bad_sound = pygame.mixer.Sound("audio/wrong-answer-buzzer.wav")
 
 # Set screen size
 screen_width = 500
