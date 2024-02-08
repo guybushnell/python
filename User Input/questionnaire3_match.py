@@ -15,17 +15,17 @@ def get_score(a: list, b: list) -> int:
     total = 0
     
     for index in range(0, len(a)):
-        diff = a[index] - b[index]
-        diff = abs(diff)
+        difference = a[index] - b[index]
+        difference = abs(difference)
         
-        total = total + diff
+        total = total + difference
         
     return total
         
         
 def get_best_match(target_user: str, database: dict) -> str:
     """
-    Search the database, scoring each set of answers against <username's>
+    Search the database, scoring each set of answers against target_user's
     @returns - the name of the best match
     """
     best_score = 100000
