@@ -1,5 +1,5 @@
-# display random sizes circles randomly
-# and then remove them from the screen - so you need to remember where each one is!
+# paint circles at the current mouse position and then 
+# remove them one by one if they have been on-screen for more than 2 seconds.
 import pygame
 import random
 import time
