@@ -23,7 +23,7 @@ This means you have to remember where each one is!
 - Delete the first item from the list
 - Repeat...
 
-## circle3.py
+## circles3.py
 Paint circles at the current mouse position and then remove each one once it has been on-screen for more than 2 seconds.
 
 - Draw a circle and add it's coordinate and time of drawing to the end of a list
@@ -34,7 +34,7 @@ Paint circles at the current mouse position and then remove each one once it has
 # Starbust / Flower
 Keywords: `line` `sin` `cos` `radians`
 
-## starburst.py
+## starburst1.py
 Draws a simple fan of yellow lines from a centre-point outwards in a circle.
 Wait for keypress, then draw a slighly different image in which the radius of the fan decreases as it rotates.
 
