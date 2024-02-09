@@ -1,128 +1,80 @@
-# Bouncing ball including the effect of gravity and friction
+# Multiple balls all bouncing at once!
 
-from time import sleep
 import pygame
-import sys
 import random
 
-
-def throw_ball():
-    # these variables will be available everywhere in the program by making them 'global'
-    global vx, vy, ball_rect, energy_loss, still_moving
-
-    # initial velocity of the ball
-    vx = (40 * random.random()) - 20
-    vy = (40 * random.random()) - 20
-    
-    # Draw a ball and get back the rectangle surrounding it
-    ball_rect = pygame.draw.circle(surface=screen, color=red, center=[scr_width/2, ball_radius*2], radius=ball_radius)
-
-    # Make the ball lose a little energy after each bounce
-    energy_loss = 0.95
-    still_moving = True
+# import functions from the previous example
+from bouncing_ball1 import process_events, draw_title
 
 
-def draw_title(text: str):
+def create_balls(screen: pygame.Surface, nof_balls: int) -> list:
     '''
-    Place the given text in the centre of the screen
+    Creates a list of balls, all with different start points and different velocities
+    @returns a list of balls - [ [x, y, vx, vy] ... ]
     '''
-    font = pygame.font.SysFont(None, 36)
-    img = font.render(text, True, pygame.Color("darkorange"))
-    img_size = img.get_size()
+    # our empty list of balls
+    balls = []
     
-    centre_x = (screen.get_width() - img.get_width()) / 2
-    centre_y = (screen.get_height() - img.get_height()) / 2
-    screen.blit(img, (centre_x, centre_y))
-    pygame.display.update()
-
-
+    for i in range(0, nof_balls):
+        x = random.random() * screen.get_width()
+        y = random.random() * screen.get_height()
+        vx = (20*random.random()) - 10
+        vy = (20*random.random()) - 10
+        
+        # create then add this new ball to the list
+        ball = [x, y, vx, vy]
+        balls.append(ball)   
+        
+    return balls
+    
+    
 # ==== Start Here ====
-pygame.init()
+if __name__ == "__main__":
 
-# Set screen size
-scr_width = 500
-scr_height = 500
-ball_radius = 30
-
-#  Some colours
-red = (255, 0, 0)
-black = (0, 0, 0)
-
-# Initialise the sound mixing module so we can play sounds
-pygame.mixer.init()
-boing_sound = pygame.mixer.Sound("audio/boing.wav")
-
-screen = pygame.display.set_mode((scr_width, scr_height))
-pygame.display.set_caption("Bouncing Ball Test")
-
-# we will use the clock to make the animation look smooth
-clock = pygame.time.Clock()
-
-# gravity will affect the behaviors of the y velocity
-gravity = 0.9
+    # Start pygame and create the game window
+    pygame.init()
+    screen = pygame.display.set_mode((500, 500))
+    pygame.display.set_caption("bouncing-ball2 - Multiple Bouncing Balls")
     
-# Set up the ball's initial velocity and position
-throw_ball()
+    # we will use the clock to make the animation look smooth
+    clock = pygame.time.Clock()
 
-# Main loop - goes forever
-while True:
-    
-    # Check to see if windows has been closed
-    for event in pygame.event.get():
-        # check if a user wants to exit the game or not
-        if event.type == pygame.QUIT:
-            exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            throw_ball()
- 
-    if still_moving:
-        # Move the ball a little
-        ball_rect = ball_rect.move(vx, vy)
-        
-        # Gravity is always pulling down by increasing y velocity towards the bottom of the window
-        vy = vy + gravity
-            
-        x_bounce = False
-        y_bounce = False
-        
-        # Check to see if the ball has hit left or right side of window
-        if ball_rect.left <= 0:
-            ball_rect.left = 0
-            x_bounce = True
-        elif ball_rect.right >= scr_width:
-            ball_rect.right = scr_width
-            x_bounce = True
+    balls = create_balls(screen=screen, nof_balls=15)
 
-        if x_bounce:    
-            vx = -vx # yes, so reverse x-velocity
+    # Main loop - goes forever
+    while True:
+        screen.fill(0)
+
+        for ball in balls:
+            # Move the ball a little
+            ball[0] += ball[2]
+            ball[1] += ball[3]
+                        
+            # Now draw the ball at its new position
+            pygame.draw.circle(surface=screen, color=(255, 0, 0), center=(ball[0], ball[1]), radius=30)
             
-        # Check to see if the ball has hit top or bottom of window
-        if ball_rect.top <= 0:
-            ball_rect.top = 0
-            y_bounce = True
-        elif ball_rect.bottom >= scr_height:
-            ball_rect.bottom = scr_height
-            y_bounce = True
-            
-        if y_bounce:
-            vy = -vy # yes, so reverse y-velocity
-            
-        # Now draw the ball at its new position
-        screen.fill(black)
-        pygame.draw.circle(surface=screen, color=red, center=ball_rect.center, radius=ball_radius)
+            # Do we need to bounce?
+            if ball[0] < 0 or ball[0] > screen.get_width():
+                ball[2] = -ball[2]
+                
+                # stop balls getting stuck beneath or above window
+                ball[0] = max(0, ball[0])
+                ball[0] = min(ball[0], screen.get_width())
+                
+            if ball[1] < 0 or ball[1] > screen.get_height():
+                ball[3] = -ball[3]
+                
+                # stop balls getting stuck beneath or above window
+                ball[1] = max(0, ball[1])
+                ball[1] = min(ball[1], screen.get_height())
+
+            # simulate the effect of gravity
+            ball[3] = ball[3] + 1.5
+        
         pygame.display.update()
+
+        # Check to see if windows has been closed
+        process_events()
+
+        clock.tick(30)
         
-        if x_bounce or y_bounce:
-            boing_sound.play()
-            
-            vy = vy * energy_loss
-            vx = vx * energy_loss
-            energy_loss = energy_loss / 1.03
-            
-            # Should we quit if we've practically stopped?
-            if abs(vx) + abs(vy) < 3:
-                draw_title("Press Mouse Button To Restart")            
-                still_moving = False   
-                 
-    clock.tick(30)
-    

@@ -1,16 +1,19 @@
 # Simple bouncing ball
-# Add sounds to the bounce and the effect of gravity
+# Add sounds & gravity
+
 import pygame
+
+# import functions from the previous example
 from bouncing_ball1 import process_events, draw_title
 
-
+    
 # ==== Start Here ====
 if __name__ == "__main__":
 
     # Start pygame and create the game window
     pygame.init()
     screen = pygame.display.set_mode((500, 500))
-    pygame.display.set_caption("bouncing-ball1 - Simple Bouncing Ball")
+    pygame.display.set_caption("bouncing-ball2 - Sound & Gravity")
     
     pygame.mixer.init()
     bounce_sound = pygame.mixer.Sound("audio/boing.wav")
@@ -49,7 +52,7 @@ if __name__ == "__main__":
             bounce_sound.play()
 
         # simulate the effect of gravity
-        vy = vy + 0.9
+        vy = vy + 1.5
         
         clock.tick(30)
         
