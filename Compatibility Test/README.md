@@ -1,4 +1,4 @@
-# User Input
+# Compatibility Test
 
 ![Screenshot](images/q3.png)
 
@@ -36,3 +36,7 @@ Keywords: `exceptions` `open` `read` `write` `json`
 As above but compare the user's input against previous answers to find the best match.
 
 Keywords: `best batch`
+
+# Exercises
+
+* Load/Save the database to the cloud so that multiple users can access it at once. Hint: use something like the free tier of MongoDB
