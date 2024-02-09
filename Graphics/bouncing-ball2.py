@@ -1,25 +1,7 @@
 # Simple bouncing ball
+# Add sounds to the bounce and the effect of gravity
 import pygame
-
-
-def process_events():
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT: 
-            exit()
-
-
-def draw_title(text: str):
-    '''
-    Place the given text in the centre of the screen
-    '''
-    font = pygame.font.SysFont(None, 36)
-    img = font.render(text, True, pygame.Color("darkorange"))
-    img_size = img.get_size()
-    
-    centre_x = (screen.get_width() - img.get_width()) / 2
-    centre_y = (screen.get_height() - img.get_height()) / 2
-    screen.blit(img, (centre_x, centre_y))
-    pygame.display.update()
+from bouncing_ball1 import process_events, draw_title
 
 
 # ==== Start Here ====
@@ -69,5 +51,5 @@ if __name__ == "__main__":
         # simulate the effect of gravity
         vy = vy + 0.9
         
-        clock.tick(40)
+        clock.tick(30)
         
