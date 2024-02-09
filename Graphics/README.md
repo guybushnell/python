@@ -36,6 +36,10 @@ Paint circles at the current mouse position and then remove each one once it has
 - Delete the first item from the list
 - Repeat...
 
+## Exercises
+1. Modify circles3.py so that the colour of the circles starts at white for the most recent one to dark-grey for the oldest. Hint: modify the r, g & b of the colour by the index number of the circle in the list
+1. Modify circles2.py to make it look more like rain-drops. Hint: draw outlines, not filled circles and make their radius grow until they are erased
+
 # Bouncing Balls
 Demonstrates how to simulate a ball bouncing off the sides of the screen.
 
@@ -47,17 +51,29 @@ Keywords: `circle` `lists` `random`
 
 Animate a ball bouncing around the screen.
 
+* draw the ball
+* modify it's position by its velocity
+* if it's gone off the left or right edge of the window, reverse the x-velocity
+* if it's gone off the top or bottom of the window, reverse the y-velocity
+* repeat...
+
 ## bouncing_ball2.py
 
 Adds sound for the bounce and simulate the effect of gravity on the ball.
+
+* add a small constant to the y-velocity every time the ball is moved to give the effect of gravity
 
 ## bouncing_ball3.py
 
 Animate multiple balls at once. No sound this time since it could be a bit annoying!
 
+* create a list of balls `[ [x y vx vy] ... ]` with random positions and velocities
+* for every ball in the list, perform the actions listed for [bouncing_ball1.py](#bouncing_ball1.py) above
+
 ## Exercises
-- Modify **bouncing_ball3.py** to give each ball it's own colour.
-- Remove each ball from the screen once it stops bouncing.
+1. Modify **bouncing_ball3.py** to give each ball it's own colour.
+1. Remove each ball from the screen once it stops bouncing.
+1. Remove balls that collide. Hint: use `math.dist(point1, point2)` to test the distance between each ball
 
 
 # Starbust / Flower
@@ -84,9 +100,9 @@ Keywords: `recursion` `call-depth`
 - we have to keep track of the call-depth to avoid going infinitely recursive. i.e. once the depth has reach 3, it doesn't bother calling itself any further.
 
 ## Exercises
-- Modify **starburst1** so that it draws the fan from 0+N..360+N where N is a value that gradually increases. Hint: only call pygame.display.update() after drawing the entire fan and add a delay after each update.
-- Modify **startburst2** to start at depth 1 and gradually increase the depth and radius. Try also changing the number of lines in each fan by altering the increment in: `for angle in range(0, 360, 30):`
-- Modify **starburst2** to draw something that looks like a tree with branches, rather than a fan. Change the line thickness so that it starts thick and gets thinner for each branch. Also change the colour of the final branches to green, to look like leaves.
+1. Modify **starburst1** so that it draws the fan from 0+N..360+N where N is a value that gradually increases. Hint: only call pygame.display.update() after drawing the entire fan and add a delay after each update.
+1. Modify **starburst2** to start at depth 1 and gradually increase the depth and radius. Try also changing the number of lines in each fan by altering the increment in: `for angle in range(0, 360, 30):`
+1. Modify **starburst2** to draw something that looks like a tree with branches, rather than a fan. Change the line thickness so that it starts thick and gets thinner for each branch. Also change the colour of the final branches to green, to look like leaves.
 
 # Hop-Scotch
 
