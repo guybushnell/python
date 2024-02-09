@@ -1,8 +1,26 @@
 # Hit the flipped cells to un-flip them, as quick as you can!
+# Step 1 - Create and draw a grid of shapes ready for hitting
 
 import pygame
+import random
 import time
 
+
+def wait_for_user() -> None:
+    """
+    Wait for a mouse-click or keypress then return.
+    If user closes windows, then quite the program.
+    """
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type==pygame.KEYDOWN: 
+                return
+            elif event.type==pygame.MOUSEBUTTONDOWN:
+                return
+            elif event.type==pygame.QUIT: 
+                exit()
+                
 
 def draw_title(screen, text: str, colour) -> None:
     '''
@@ -53,7 +71,9 @@ def create_grid(screen: pygame.Surface, nof_cols:int, nof_rows:int) -> list:
             # move-on ready to make the next one
             x = x + cell_width
 
-            row.append(rect)
+            # each cell is a list of [rectangle, status]
+            # we will use the status to indicate if the cell is flipped/lit
+            row.append([rect, False])
             
         # add this new row of cells to the list of rows
         grid.append(row)
@@ -63,28 +83,39 @@ def create_grid(screen: pygame.Surface, nof_cols:int, nof_rows:int) -> list:
         
     return grid
     
-
-# Start Here
+    
+def draw_grid(screen: pygame.Surface, grid: list) -> None:
+    """
+    Draw each rectangle in the grid.
+    """
+    unlit = pygame.Color("dark blue")
+    lit = pygame.Color("light blue")
+    background = pygame.Color("black")
+    
+    for row in grid:
+        for rect, flipped in row:
+            if flipped:
+                pygame.draw.rect(surface=screen, color=lit, rect=rect)
+            else:
+                pygame.draw.rect(surface=screen, color=unlit, rect=rect)
+            
+            # draw a border around each to separate them a little bit
+            pygame.draw.rect(surface=screen, color=background, rect=rect, width=4)
+            
+    pygame.display.update()
+            
+    
+# ==== Start Here ====
 if __name__ == "__main__":
 
     # initialise pygame and set-up the gaming window
     screen = pygame.display.set_mode((500, 500))
-    pygame.display.set_caption("Whack-a-circle!")
+    pygame.display.set_caption("HopScotch1 - Create & Draw")
 
-    # create the coordinate grid of rectangle - we'll use these to draw and test for hits!
-    grid_map = create_grid(screen=screen, width=3, height=3)
-    
-    while True:
-        # flip some cells in the grid so the user can try to hit them
-        num_flipped = flip_some_cells(screen, grid_map)
-        
-        # monitor the users input for a set time only, detecting hits
-        score = process_events(timeout_secs=2)
-        
-        if score < num_lit:
-            draw_title(screem, "Game Over Man!")
-            time.sleep(2)
-            break
-        else:
-            draw_title(screen, "Well Done! Next level!")
-            time.sleep(2)
+    # create the grid of rectangles - we'll use these to draw and test for hits!
+    rect_grid = create_grid(screen=screen, nof_cols=6, nof_rows=6)
+    draw_grid(screen, rect_grid)
+
+    # Now wait until the use closes the window
+    wait_for_user()
+                
