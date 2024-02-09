@@ -13,16 +13,22 @@ def process_events():
             exit()
             
             
-def wait_for_keypress():
+def wait_for_user() -> None:
+    """
+    Wait for a mouse-click or keypress then return.
+    If user closes windows, then quite the program.
+    """
+    
     while True:
         for event in pygame.event.get():
             if event.type==pygame.KEYDOWN: 
-                screen.fill((0, 0, 0))
+                return
+            elif event.type==pygame.MOUSEBUTTONDOWN:
                 return
             elif event.type==pygame.QUIT: 
-                sys.exit()
-
+                exit()
     
+
 def draw_line(x, y, radius, angle):
     
     # convert angle in degrees to radians
@@ -70,8 +76,10 @@ def reducing_starburst():
 if __name__ == "__main__":
     pygame.display.set_caption("Simple Starburst")
     simple_starburst()
-    wait_for_keypress()
+    wait_for_user()
+
+    screen.fill(0)
 
     pygame.display.set_caption("Reducing Starburst")
     reducing_starburst()    
-    wait_for_keypress()
+    wait_for_user()
