@@ -44,6 +44,9 @@ if __name__ == "__main__":
     flip_some_cells(rect_grid, total_flipped)
     draw_grid(screen, rect_grid)
 
+    draw_title(screen=screen, text="Hit The Lit Cells!", colour=pygame.Color("white"))
+    time.sleep(2)
+
     # loop until all the flipped cells have been un-flipped
     while total_flipped > 0:        
         
