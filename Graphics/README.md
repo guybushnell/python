@@ -153,3 +153,4 @@ The final example waits for mouse-clicks and determines if the user has clicked 
 - Show then hide the flipped cells so the player has to remember which ones were flipped. Hint: use `copy.deepcopy()` to make a copy of the grid in it's flipped state. Check mouse-clicks against the copy but pass the original grid to the draw function.
 - Let the player see the cells as they are being flipped then insist that they are un-flipped in the correct order. Hint: modify the flip function so that it passes back a list of flipped cells. Then only check the mouse position against the first cell in that list.
 - If the user correctly flips all the cells, either increase the number to be flipped next time or increase the grid-size or both!
+- Modify the code to behave more like the **whack-a-mole** game. Continuously flip random cells and then un-flip them after a certain time has passed if the player hasn't already hit them.
