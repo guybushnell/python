@@ -1,7 +1,11 @@
 # Graphics
-Simple examples of 2D graphics using pygame
+Simple examples of 2D graphics using pygame.
 
-Keywords: `pygame` `2d graphics`
+Each example includes functions defined in the previous one via Python's import mechanism. That way, we don't need to keep copy/pasting code into each.
+
+- [Circles](#circles)
+- [Starburst](#starburst)
+- [Hop-Scotch](#hop-scotch)
 
 ## bouncing-ball.py
 Shows a ball appearing to bounce under some kind of gravity. Also make a noise on each bounce.
@@ -10,7 +14,7 @@ Shows a ball appearing to bounce under some kind of gravity. Also make a noise o
 
 ![Fan Image](images/circles1.png)
 
-Three examples based around painting circles. Each example includes functions defined in the previous one via Python's import mechanism. That way, we don't need to keep copy/pasting code into each.
+Three examples based around painting circles. 
 
 Keywords: `circle` `lists` `tuple` `mouse` `time` `random`
 
@@ -38,20 +42,92 @@ Paint circles at the current mouse position and then remove each one once it has
 
 Simple 2D graphics using straight lines and recursion.
 
-![Fan Image](images/fan2.png)
-
 Keywords: `line` `sin` `cos` `radians`
 
+![Fan Image](images/fan2.png)
+
 ## starburst1.py
+
 Draws a simple fan of yellow lines from a centre-point outwards in a circle.
 Wait for keypress, then draw a slighly different image in which the radius of the fan decreases as it rotates.
 
-## starburst2-recursive.py
+## starburst2.py
 
-Demonstrates the use of simple recursion to acheive a complex result.
+Demonstrates the use of simple **recursion** to acheive a complex result. Recursion is when a function calls itself and is a very powerful technique but can be a bit tricky to debug.
 
 Keywords: `recursion` `call-depth`
 
-- call the function recursive_starburst() to draw a fan centre `(x,y)`, radius `r`
+- call the function `recursive_starburst()` to draw a fan centre: `(x,y)`, radius: `r`
 - at the end of each line drawn, the function calls itself using the end-point as the centre of a new, smaller starburst
-- keep track of the call-depth to stop the thing going infinitely recursive. i.e. once the depth has reach 3, it doesn't bother calling itself any further.
+- we have to keep track of the call-depth to avoid going infinitely recursive. i.e. once the depth has reach 3, it doesn't bother calling itself any further.
+
+## Excersises
+- Modify **starburst1** so that it draws the fan from 0+N..360+N where N is a value that gradually increases. Hint: only call pygame.display.update() after drawing the entire fan and add a delay after each update.
+- Modify **startburst2** to start at depth 1 and gradualy increase the depth and radius. Try also changing the number of lines in each fan by altering the increment in: `for angle in range(0, 360, 30):`
+- Modify **starburst2** to draw something that looks like a tree with branches, rather than a fan. Change the line thickness so that it starts thick and gets thinner for each branch. Also change the colour of the final branches to green, to look like leaves.
+
+# Hop-Scotch
+
+The basis of a game in which the user clicks on "flipped" squares in a grid to un-flip them.
+
+Keywords: `nested lists` `random` `events`
+
+![Fan Image](images/hop-scotch.png)
+
+
+## hop_scotch1.py
+The program implements a function to construct an NxM grid of rectangles (pygame.Rect) using nested lists. 
+
+For example, a 2x2 grid would be returned as:
+
+```
+[
+    [cell1 cell2] 
+    [cell3 cell4]
+]
+```
+     
+Access cell2 using: `grid[0][1]`
+
+This grid structure is passed to a separate function which draws it in the game window.
+
+- create grid
+- draw grid
+
+## hop_scotch2.py
+This adds a function to "flip" random cells in the grid. 
+
+Previously each cell was a pygame.Rect object. 
+Here we modify the code to give each cell a Boolean flag - True/False to record if a cell is flipped or un-flipped.
+
+For example, to access the flag of cell3 (in a 2x2 grid):
+
+```
+row = grid[1]
+cell = row[0]
+status = cell[1]
+```
+The draw function then draws these flipped cells in a different colour.
+
+- create grid
+- randomly flip some cells
+- draw grid
+- repeat...
+
+## hop_scotch3.py
+
+The final example waits for mouse-clicks and determines if the user has clicked on a flipped cell.
+
+- create grid
+- randomly flip some cells
+- draw grid
+- clicked on a flipped cell?
+	- Yes: unflip the cell, redraw, update the flipped count
+	- No: make a failure sound
+- repeat while flipped cells remain
+
+## Exercises
+
+- Show then hide the flipped cells so the player has to remmember which ones were flipped. Hint: use `copy.deepcopy()` to make a copy of the grid in it's flipped state. Check mouse-clicks against the copy but pass the original grid to the draw function.
+- Let the player see the cells as they are being flipped then insist that they are un-flipped in the correct order. Hint: modify the flip function so that it passes back a list of flipped cells. Then only check the mouse position against the first cell in that list.
+- If the user correctly flips all the cells, either increase the number to be flipped next time or increase the grid-size or both!
