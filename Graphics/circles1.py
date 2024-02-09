@@ -25,7 +25,7 @@ def process_events():
             exit()
             
             
-# Start Here
+# ==== Start Here ====
 if __name__ == "__main__":
     pygame.display.set_caption("Circles1")
 

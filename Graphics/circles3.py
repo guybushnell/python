@@ -8,7 +8,7 @@ from circles1 import screen, draw_circle
 from circles2 import erase_circle
 
 
-# Start Here
+# ==== Start Here ====
 if __name__ == "__main__":
     pygame.display.set_caption("Circles3")
 

@@ -15,7 +15,7 @@ def erase_circle(posx, posy, radius):
     pygame.display.update()
 
 
-# Start Here
+# ==== Start Here ====
 if __name__ == "__main__":
     # a list of circle coordinates and radius
     circles = []

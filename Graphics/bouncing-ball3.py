@@ -1,14 +1,18 @@
+# Bouncing ball including the effect of gravity and friction
+
 from time import sleep
 import pygame
 import sys
 import random
 
+
 def throw_ball():
+    # these variables will be available everywhere in the program by making them 'global'
     global vx, vy, ball_rect, energy_loss, still_moving
 
     # initial velocity of the ball
-    vx = (20 * random.random()) - 10
-    vy = (20 * random.random()) - 10
+    vx = (40 * random.random()) - 20
+    vy = (40 * random.random()) - 20
     
     # Draw a ball and get back the rectangle surrounding it
     ball_rect = pygame.draw.circle(surface=screen, color=red, center=[scr_width/2, ball_radius*2], radius=ball_radius)
@@ -31,7 +35,9 @@ def draw_title(text: str):
     screen.blit(img, (centre_x, centre_y))
     pygame.display.update()
 
-    pygame.init()
+
+# ==== Start Here ====
+pygame.init()
 
 # Set screen size
 scr_width = 500
@@ -49,8 +55,11 @@ boing_sound = pygame.mixer.Sound("audio/boing.wav")
 screen = pygame.display.set_mode((scr_width, scr_height))
 pygame.display.set_caption("Bouncing Ball Test")
 
-# gravity will affect the behavior of the y velocity
-gravity = 0.7
+# we will use the clock to make the animation look smooth
+clock = pygame.time.Clock()
+
+# gravity will affect the behaviors of the y velocity
+gravity = 0.9
     
 # Set up the ball's initial velocity and position
 throw_ball()
@@ -67,9 +76,6 @@ while True:
             throw_ball()
  
     if still_moving:
-        # fill black color on screen
-        screen.fill(black)
-        
         # Move the ball a little
         ball_rect = ball_rect.move(vx, vy)
         
@@ -102,21 +108,21 @@ while True:
             vy = -vy # yes, so reverse y-velocity
             
         # Now draw the ball at its new position
+        screen.fill(black)
         pygame.draw.circle(surface=screen, color=red, center=ball_rect.center, radius=ball_radius)
-        
-        # Finally, update the screen so we can see what's changed!
         pygame.display.update()
         
         if x_bounce or y_bounce:
             boing_sound.play()
+            
             vy = vy * energy_loss
             vx = vx * energy_loss
             energy_loss = energy_loss / 1.03
             
-            # Should we quite if we've practically stopped?
-            if abs(vx) < 0.2 and abs(vy) < 0.2:
-                still_moving = False   
+            # Should we quit if we've practically stopped?
+            if abs(vx) + abs(vy) < 3:
                 draw_title("Press Mouse Button To Restart")            
+                still_moving = False   
                  
-    sleep(0.025)
+    clock.tick(30)
     
