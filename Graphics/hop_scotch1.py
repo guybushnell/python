@@ -92,8 +92,12 @@ def draw_grid(screen: pygame.Surface, grid: list) -> None:
     lit = pygame.Color("light blue")
     background = pygame.Color("black")
     
+    # for every row in grid...
     for row in grid:
+        
+        # for every cell in row...
         for rect, flipped in row:
+            
             if flipped:
                 pygame.draw.rect(surface=screen, color=lit, rect=rect)
             else:

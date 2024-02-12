@@ -14,7 +14,7 @@ Three examples based around painting circles.
 
 ![Fan Image](images/circles1.png)
 
-Keywords: `circle` `lists` `tuple` `mouse` `time` `random`
+Keywords: `circle` `lists` `tuple` `mouse` `time` `random` `dataclasses`
 
 ## circles1.py
 Paint circles at random positions with a short delay between each
@@ -22,6 +22,7 @@ Paint circles at random positions with a short delay between each
 ## circles2.py
 Paint 10 random circles and then erase each one while you continue painting new ones. 
 This means you have to remember where each one is! 
+To do this we store a description of each circle in a list.
 
 - Draw a circle and add it's coordinate to the end of a list
 - Erase the circle whose coordinate is at the start of the list
@@ -66,6 +67,9 @@ Adds sound for the bounce and simulate the effect of gravity on the ball.
 ## bouncing_ball3.py
 
 Animate multiple balls at once. No sound this time since it could be a bit annoying!
+
+Keywords: `lists` `dataclasses`
+
 
 * create a list of balls `[ [x y vx vy] ... ]` with random positions and velocities
 * for every ball in the list, perform the actions listed for [bouncing_ball1.py](#bouncing_ball1.py) above

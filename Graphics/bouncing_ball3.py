@@ -3,10 +3,21 @@
 import pygame
 import random
 
+from dataclasses import dataclass
+
 # import functions from the previous example
 from bouncing_ball1 import process_events, draw_title
 
+@dataclass
+class Ball:
+    """ Describes a ball's centre point (x,y) and velocity (vx, vy) """
+    x: float
+    vx: float
 
+    y: float
+    vy: float
+    
+    
 def create_balls(screen: pygame.Surface, nof_balls: int) -> list:
     '''
     Creates a list of balls, all with different start points and different velocities
@@ -22,7 +33,8 @@ def create_balls(screen: pygame.Surface, nof_balls: int) -> list:
         vy = (20*random.random()) - 10
         
         # create then add this new ball to the list
-        ball = [x, y, vx, vy]
+        # make sure parameter are in same order as Class - or name then to be safe
+        ball = Ball(x, vx, y, vy)
         balls.append(ball)   
         
     return balls
@@ -47,29 +59,29 @@ if __name__ == "__main__":
 
         for ball in balls:
             # Move the ball a little
-            ball[0] += ball[2]
-            ball[1] += ball[3]
+            ball.x += ball.vx
+            ball.y += ball.vy
                         
             # Now draw the ball at its new position
-            pygame.draw.circle(surface=screen, color=(255, 0, 0), center=(ball[0], ball[1]), radius=30)
+            pygame.draw.circle(surface=screen, color=(255, 0, 0), center=(ball.x, ball.y), radius=30)
             
             # Do we need to bounce?
-            if ball[0] < 0 or ball[0] > screen.get_width():
-                ball[2] = -ball[2]
+            if ball.x < 0 or ball.x > screen.get_width():
+                ball.vx = -ball.vx
                 
                 # stop balls getting stuck beneath or above window
-                ball[0] = max(0, ball[0])
-                ball[0] = min(ball[0], screen.get_width())
+                ball.x = max(0, ball.x)
+                ball.x = min(ball.x, screen.get_width())
                 
-            if ball[1] < 0 or ball[1] > screen.get_height():
-                ball[3] = -ball[3]
+            if ball.y < 0 or ball.y > screen.get_height():
+                ball.vy = -ball.vy
                 
                 # stop balls getting stuck beneath or above window
-                ball[1] = max(0, ball[1])
-                ball[1] = min(ball[1], screen.get_height())
+                ball.y = max(0, ball.y)
+                ball.y = min(ball.y, screen.get_height())
 
             # simulate the effect of gravity
-            ball[3] = ball[3] + 1.5
+            ball.vy = ball.vy + 1.5
         
         pygame.display.update()
 

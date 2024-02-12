@@ -4,9 +4,19 @@ import pygame
 import random
 import time
 
+from dataclasses import dataclass
+
 from circles1 import screen, process_events, draw_circle
 
 
+@dataclass
+class Circle:
+    """ Describes a circle with centre (x,y), radius (r) """
+    x: float
+    y: float
+    r: float
+    
+    
 def erase_circle(posx, posy, radius):
     fill_col = pygame.Color("black")
     
@@ -30,13 +40,13 @@ if __name__ == "__main__":
         r = random.random() * 25 + 10
         
         # add this circle to our list so we can rub it out later
-        circles.append((x, y, r))
+        circles.append(Circle(x, y, r))
         
         draw_circle(x, y, r)
         time.sleep(0.125)
         
         if len(circles) > 10:
             circle = circles[0]
-            erase_circle(circle[0], circle[1], circle[2])
+            erase_circle(circle.x, circle.y, circle.r)
             del circles[0]
     

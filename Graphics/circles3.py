@@ -4,10 +4,23 @@ import pygame
 import random
 import time
 
+from dataclasses import dataclass
+
 from circles1 import screen, draw_circle
 from circles2 import erase_circle
 
 
+@dataclass
+class Circle:
+    """ Describes a circle with centre (x,y), radius r
+        time marks when the circle was drawn.
+    """
+    x: float
+    y: float
+    r: float
+    time: float
+    
+    
 # ==== Start Here ====
 if __name__ == "__main__":
     pygame.display.set_caption("Circles3")
@@ -30,14 +43,14 @@ if __name__ == "__main__":
                 draw_circle(x, y, r)
 
                 # add this circle to our list so we can rub it out later
-                circles.append((x, y, r, time.time()))    
+                circles.append(Circle(x, y, r, time.time()))    
 
         time.sleep(0.025)
         
         if len(circles) > 0:
             circle = circles[0]
     
-            age = time.time() - circle[3]
+            age = time.time() - circle.time
             if (age > 2):
-                erase_circle(circle[0], circle[1], circle[2])
+                erase_circle(circle.x, circle.y, circle.r)
                 del circles[0]
