@@ -2,7 +2,7 @@
 import pygame
 import time
 
-from starburst1 import screen, process_events, draw_line, wait_for_keypress
+from starburst1 import screen, process_events, draw_line, wait_for_user
 
 
 def recursive_starburst(x, y, radius, depth):
@@ -25,4 +25,4 @@ if __name__ == "__main__":
     
     recursive_starburst(x=screen.get_width() / 2, y=screen.get_height()/2, radius=160, depth=0)
     
-    wait_for_keypress()
+    wait_for_user()
