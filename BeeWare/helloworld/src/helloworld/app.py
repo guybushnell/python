@@ -36,15 +36,16 @@ class HelloWorld(toga.App):
             style=Pack(padding=5)
         )
 
-        button2 = toga.Button(
+        self.button2 = toga.Button(
             "Quit",
             on_press=self.quit,
-            style=Pack(padding=5)
+            style=Pack(padding=5),
+            enabled=False
         )
 
         main_box.add(name_box)
         main_box.add(button)
-        main_box.add(button2)
+        main_box.add(self.button2)
 
         self.main_window = toga.MainWindow(title=self.formal_name)
         self.main_window.content = main_box
@@ -61,6 +62,8 @@ class HelloWorld(toga.App):
             greeting(self.name_input.value),
             payload["body"],
         )
+        
+        self.button2.enabled = True
 
     def quit(self, widget):
         self.main_window.info_dialog(f"Goodbye, {self.name_input.value}", "So-long!")

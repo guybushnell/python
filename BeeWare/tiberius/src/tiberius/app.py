@@ -118,6 +118,10 @@ class Tiberius(toga.App):
         self.draw_nostrils()
         self.stroke_head()
         self.draw_text()
+        
+        # add our rectangle
+        self.rect = self.canvas.context.rect(0, 0, 5, 5)
+        self.canvas.context.fill(color="orange")
 
     def on_resize(self, widget, width, height, **kwargs):
         # On resize, center the text horizontally on the canvas. on_resize will be
@@ -131,7 +135,31 @@ class Tiberius(toga.App):
             widget.redraw()
 
     def on_press(self, widget, x, y, **kwargs):
-        self.main_window.info_dialog("Hey!", f"You poked the yak at ({x}, {y})")
+        context = self.canvas.context
+        l = len(context)
+
+        last_item = context[l-1]        
+        
+        print("Canvas len = %d" % l)
+        # context.remove(context[0])
+
+        # context.begin_path()
+        # context.move_to(0, l+20)
+        # context.line_to(160, l+20)
+        
+        # with context.Fill(color="orange") as f:
+        #     f.rect(0, 0, l*2, l*2)
+        
+        # context.rect(0, 0, l*2, l*2)
+        # context.fill(color="orange")
+
+        last_item = context[-2]
+        print("Last item: %s" % str(last_item))
+
+        self.rect.x += 2
+        self.canvas.redraw()
+        
+        # self.main_window.info_dialog("Hey!", f"You poked the yak at ({x}, {y})")
 
 
 def main():
