@@ -17,35 +17,35 @@ compatibility = (
     ("Ice skating", "Heaven", "Hell")    
 )
 
+TEXT_SIZE = 15
+
+
 class Questionnaire(toga.App):
     question_num = 0
     light_bar_size = (0,0)
-    choice = 2
+    choice = -1
     choices = []
     
     def create_questionnaire(self):
         """
         Setup the windows with a question number, question and answer buttons.
         
-        [ Q1/5 | Question text ]
-        [      | 1  2  3  4  5 ]
-        [      | ------------- ]
-        [      | Next          ]
+        [ Username - Q1/5]
+        [ Question text  ]
+        [ 1  2  3  4  5  ]
+        [ -------------  ]
+        [ Next           ]
         """
         
-        row_box = toga.Box(style=Pack(direction=ROW, padding=10))
-
+        column_box = toga.Box(style=Pack(direction=COLUMN, padding=5))
+        
         # the question number e.g. Q1/5
-        self.question_num_label = toga.Label("Q1/10", style=Pack(font_size=20, color="blue", padding_right=10))
-        row_box.add(self.question_num_label)
-
-        # The question text, the button choice, choice indicator and Next button are all in this column
-        column_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
-        row_box.add(column_box)
+        self.question_num_label = toga.Label("Username - Q1/10", style=Pack(color="red", font_size=TEXT_SIZE, padding_bottom=10))
+        column_box.add(self.question_num_label)
         
         # The actual question
         self.question_label = toga.Label("Would you rather be a fish or a ferret?",
-                                         style=Pack(font_size=20, font_weight="bold", padding_bottom=20))
+                                         style=Pack(font_size=TEXT_SIZE*2, font_weight="bold", padding_bottom=10))
         column_box.add(self.question_label)
         
         # Make up an array of choice buttons for the user's answer
@@ -53,7 +53,7 @@ class Questionnaire(toga.App):
         
         for i in range(0, 5):
             choice_button = toga.Button(text=str(i+1), 
-                                        style=Pack(flex=1, padding_left=2, padding_right=2),
+                                        style=Pack(flex=1, padding=5, font_size=TEXT_SIZE),
                                         on_press=self.on_make_choice)
             
             self.buttons.append(choice_button)
@@ -68,14 +68,73 @@ class Questionnaire(toga.App):
         
         # Finally, add a "Next" button to move to the next question
         self.next_button = toga.Button(text="Next", 
-                                       style=Pack(background_color="green", color="white", font_size=20, padding_top=20),
+                                       style=Pack(background_color="green", color="white", font_size=TEXT_SIZE, padding_top=20),
                                        on_press=self.next_question, enabled=False)
         
         column_box.add(toga.Box(style=Pack(alignment=RIGHT, flex=1), children=[self.next_button]))
         
+        self.main_window.content = column_box
+        
+        
+    def create_welcome(self):
+        main_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        
+        main_box.add(toga.Label(text="Welcome!", style=Pack(text_align=CENTER, font_size=TEXT_SIZE*2, padding_bottom=20)))
+        
+        # We need to get the user's name
+        name_input = toga.TextInput(placeholder="Your name...", on_change=self.on_change_name, style=Pack(font_size=TEXT_SIZE, width=200))
+
+        tidy_box = toga.Box(style=Pack(direction=ROW))
+        tidy_box.add(toga.Canvas(style=Pack(flex=1)))
+        tidy_box.add(name_input)        
+        tidy_box.add(toga.Canvas(style=Pack(flex=1)))
+
+        main_box.add(tidy_box)
+
+        main_box.add(toga.Label(text="Enter your name then press Start.\nYou will then be asked a series of questions \nto help find your perfect match!", 
+                                style=Pack(text_align=CENTER, padding=20, font_size=TEXT_SIZE)))
+                
+        self.start_button = toga.Button(text="Start", 
+                                        style=Pack(background_color="green", color="white", font_size=TEXT_SIZE),
+                                        on_press=self.start, enabled=False)
+        main_box.add(self.start_button)
+        
         self.main_window = toga.MainWindow(title=self.formal_name)
-        self.main_window.content = row_box
-        self.main_window.show()
+        self.main_window.content = main_box
+        
+        
+    def create_summary(self):
+        main_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        
+        main_box.add(toga.Label(text="Thank You!", style=Pack(text_align=CENTER, font_size=TEXT_SIZE*3, padding=20)))        
+        main_box.add(toga.Label(text="Here is a summary of your answers:", style=Pack(text_align=CENTER, padding=5, font_size=TEXT_SIZE)))
+        main_box.add(toga.Label(text=str(self.choices), style=Pack(text_align=CENTER, font_size=TEXT_SIZE)))
+                
+        row = toga.Box(style=Pack(direction=ROW, alignment=CENTER, padding_top=50))
+        row.add(toga.Canvas(style=Pack(flex=1)))
+        row.add(toga.Button(text="Goodbye", on_press=self.on_exit, style=Pack(font_size=TEXT_SIZE)))
+        row.add(toga.Canvas(style=Pack(flex=1)))
+        main_box.add(row)
+        
+        self.main_window.content = main_box
+        
+        
+    def on_change_name(self, widget:toga.TextInput):
+        self.username = widget.value
+        
+        if len(self.username) > 0:
+            self.start_button.enabled = True
+        else:
+            self.start_button.enabled = False
+            
+    
+    def start(self, widget):
+        self.create_questionnaire()
+        
+        self.question_num = 0
+        self.answers = []
+
+        self.show_question(compatibility)
         
         
     def next_question(self, widget):
@@ -87,12 +146,11 @@ class Questionnaire(toga.App):
         if self.question_num < len(compatibility):
             self.show_question(compatibility)
         
-            self.choice = 2
+            self.choice = -1
             self.update_button_light()
+            self.next_button.enabled = False
         else:
-            self.main_window.info_dialog("Finished", "You're all clear kid!")
-
-        self.next_button.enabled = False
+            self.create_summary()
         
         
     def on_resize(self, widget, width, height, **kwargs):
@@ -120,8 +178,6 @@ class Questionnaire(toga.App):
         for i in range(0, 5):
             if i is self.choice:
                 self.show_button_light(i, lit=True)
-            else:
-                self.show_button_light(i, lit=False)
         
                 
     def on_make_choice(self, pressed_button: toga.Button):
@@ -142,7 +198,7 @@ class Questionnaire(toga.App):
         question = questions[self.question_num]
         
         # Show the question number
-        self.question_num_label.text = "Q %d/%d" % (self.question_num+1, len(questions))
+        self.question_num_label.text = "%s - Question %d/%d" % (self.username, self.question_num+1, len(questions))
         
         # label the first and last button
         self.buttons[0].text = "1-%s" % question[1]
@@ -153,13 +209,10 @@ class Questionnaire(toga.App):
         
         
     def startup(self):
-        self.create_questionnaire()
-        
-        self.question_num = 0
-        self.answers = []
-        self.show_question(compatibility)
-         
-        print("Hello wold")
+        self.create_welcome()
+        # self.create_summary()
+        self.main_window.show()
+
 
 
 def main():
